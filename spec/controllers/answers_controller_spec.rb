@@ -2,25 +2,8 @@ require 'rails_helper'
 
 # rubocop:disable Metrics/BlockLength
 RSpec.describe AnswersController, type: :controller do
-  let(:question) { create(:question) }
+  let!(:question) { create(:question) }
   let(:answer) { create(:answer, question: question) }
-
-  describe 'GET #edit' do
-    before { get :edit, params: { id: answer } }
-
-    it 'should assign the requested answer to @answer' do
-      expect(assigns(:answer)).to eq answer
-    end
-
-    it 'should render edit view' do
-      expect(response).to render_template :edit
-    end
-  end
-
-  describe 'GET #new' do
-    it 'should assign new answer to @answer as a child element for question'
-    it 'should render new view'
-  end
 
   describe 'POST #create' do
     context 'Valid attributes' do

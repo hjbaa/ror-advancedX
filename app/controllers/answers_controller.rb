@@ -1,11 +1,5 @@
 class AnswersController < ApplicationController
-  before_action :find_answer, only: %i[edit update destroy]
-
-  def edit; end
-
-  def new
-
-  end
+  before_action :find_answer, only: %i[update destroy]
 
   def create
 
@@ -24,5 +18,4 @@ class AnswersController < ApplicationController
   def find_answer
     @answer = Answer.find(params[:id])
   end
-
 end
