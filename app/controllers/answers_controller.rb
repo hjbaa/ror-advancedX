@@ -16,11 +16,16 @@ class AnswersController < ApplicationController
   end
 
   def update
-
+    if @answer.update(answer_params)
+      flash[:success] = 'Answer was created!'
+    else
+      flash[:danger] = 'Invalid input!'
+    end
   end
 
   def destroy
-
+    @answer.destroy
+    flash[:success] = 'Answer was destroyed!'
   end
 
   private

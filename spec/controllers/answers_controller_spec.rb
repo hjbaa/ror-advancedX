@@ -24,20 +24,35 @@ RSpec.describe AnswersController, type: :controller do
 
   describe 'PATCH #update' do
     context 'Valid attributes' do
-      it 'should assign the requested answer to @answer'
-      it 'should change answer attributes'
-      it 'should redirect to updated answer'
+      it 'should assign the requested answer to @answer' do
+        patch :update, params: { id: answer, answer: attributes_for(:answer) }
+        expect(assigns(:answer)).to eq answer
+      end
+
+      it 'should change answer attributes' do
+        patch :update, params: { id: answer, answer: { body: 'new body' } }
+        answer.reload
+
+        expect(answer.body).to eq 'new body'
+      end
     end
 
     context 'Invalid attributes' do
-      it 'should not change answer attributes'
-      it 'should rerender edit view'
+      it 'should not change answer attributes' do
+        patch :update, params: { id: answer, answer: attributes_for(:answer, :invalid) }
+        answer.reload
+
+        expect(answer.body).to eq 'MyString'
+      end
     end
   end
 
   describe 'DELETE #destroy' do
-    it 'should delete the question'
-    it 'should redirect to parent question for answer'
+    let!(:answer) { create(:answer, question: question) }
+
+    it 'should delete the question' do
+      expect { delete :destroy, params: { id: answer } }.to change(question.answers, :count).by(-1)
+    end
   end
 end
 # rubocop:enable Metrics/BlockLength
