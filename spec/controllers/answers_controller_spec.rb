@@ -7,14 +7,18 @@ RSpec.describe AnswersController, type: :controller do
 
   describe 'POST #create' do
     context 'Valid attributes' do
-      it 'should save a new answer to database'
-      it 'should create child element for question in @answer'
-      it 'should redirect to show view'
+      it 'should save a new answer to database as child element for question' do
+        expect { post :create, params: { answer: attributes_for(:answer), question_id: question } }
+          .to change(question.answers, :count).by(1)
+      end
     end
 
     context 'Invalid attributes' do
-      it 'should not save a new answer to database'
-      it 'should rerender new view'
+      it 'should not save a new answer to database' do
+        expect do
+          post :create, params: { answer: attributes_for(:answer, :invalid), question_id: question }
+        end.to_not change(question.answers, :count)
+      end
     end
   end
 
