@@ -17,7 +17,7 @@ RSpec.describe AnswersController, type: :controller do
       it 'should not save a new answer to database' do
         expect do
           post :create, params: { answer: attributes_for(:answer, :invalid), question_id: question }
-        end.to_not change(question.answers, :count)
+        end.to_not change(Answer, :count)
       end
     end
   end
