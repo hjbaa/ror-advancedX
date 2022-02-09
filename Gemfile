@@ -29,6 +29,7 @@ gem 'jbuilder', '~> 2.7'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.4', require: false
+gem 'devise'
 gem 'slim-rails', '~> 3.3'
 
 group :development, :test do
@@ -47,8 +48,10 @@ group :development do
 end
 
 group :test do
-  gem 'shoulda-matchers', '~> 5.0'
+  gem 'capybara'
   gem 'rails-controller-testing'
+  gem 'selenium-webdriver'
+  gem 'shoulda-matchers', '~> 5.0'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
