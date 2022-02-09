@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 feature 'User can sign up', "In order to ask questions I'd like to be able to sign up" do
@@ -28,4 +30,3 @@ feature 'User can sign up', "In order to ask questions I'd like to be able to si
     expect(page).to have_content "Password can't be blank"
   end
 end
-

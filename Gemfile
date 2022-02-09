@@ -49,10 +49,10 @@ end
 
 group :test do
   gem 'capybara'
+  gem 'launchy'
   gem 'rails-controller-testing'
   gem 'selenium-webdriver'
   gem 'shoulda-matchers', '~> 5.0'
-  gem 'launchy'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

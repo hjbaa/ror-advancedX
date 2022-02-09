@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 # rubocop:disable Metrics/BlockLength
@@ -83,7 +85,6 @@ RSpec.describe QuestionsController, type: :controller do
         expect(response).to render_template :new
       end
     end
-
   end
 
   describe 'PATCH #update' do
