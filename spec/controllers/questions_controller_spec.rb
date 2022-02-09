@@ -2,8 +2,8 @@ require 'rails_helper'
 
 # rubocop:disable Metrics/BlockLength
 RSpec.describe QuestionsController, type: :controller do
-  let(:question) { create(:question) }
   let(:user) { create(:user) }
+  let(:question) { create(:question, author: user) }
 
   describe 'GET #index' do
     let(:questions) { create_list(:question, 3) }
