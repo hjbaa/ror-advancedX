@@ -1,3 +1,30 @@
-h1 =@question.title
+h1 class="mb-4" =@question.title
 
-p =@question.body
+h3 class="mb-4" ="Body: #{@question.body}"
+
+-if @question.answers.any?
+  table class="table mb-5 text-center"
+    thead
+      tr
+        th Answer's body
+        th Action
+    -@question.answers.each do |ans|
+      tr
+        td =ans.body
+        td
+          div class="btn-group" role="group"
+            / # TODO: пока поставлена заглушка для эдит, но, как я понял, в будущем мы сделаем так,
+            / чтобы исправлять тоже можно было на той же странцие
+            =link_to 'Edit', root_path, class: 'btn btn-outline-primary'
+            =link_to 'Destroy', answer_path(ans), class: 'btn btn-outline-danger',
+                    data: { method: :delete, confirm: 'Are you sure?'}
+
+
+=form_with model: [@question, Answer.new], local: true do |f|
+  div class="mb-3 row"
+    div class="col-sm-2 col-form-label"
+      =f.label :body
+    div class="col-sm-10 col-form-label"
+      =f.text_area :body, placeholder: 'Your answer', class: 'form-control'
+
+  =f.submit 'Submit answer', class: 'btn btn-outline-primary btn-md mb-4'

@@ -7,11 +7,11 @@ class QuestionsController < ApplicationController
   end
 
   def new
-    @question = Question.new
+    @question = current_user.created_questions.new
   end
 
   def create
-    @question = Question.new(question_params)
+    @question = current_user.created_questions.new(question_params)
 
     if @question.save
       flash[:success] = 'Your question successfully created.'

@@ -6,7 +6,7 @@ RSpec.describe Question, type: :model do
   describe 'Associations' do
     it { should have_many(:answers) }
     it { should have_many(:answers).dependent(:destroy) }
-    it { should belong_to(:author) }
+    it { should belong_to(:author).optional(true) }
   end
 
   describe 'Validations' do

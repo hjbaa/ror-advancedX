@@ -4,8 +4,11 @@ require 'rails_helper'
 RSpec.describe AnswersController, type: :controller do
   let!(:question) { create(:question) }
   let(:answer) { create(:answer, question: question) }
+  let(:user) { create(:user) }
 
   describe 'POST #create' do
+    before { login(user) }
+
     context 'Valid attributes' do
       it 'should save a new answer to database as child element for question' do
         expect { post :create, params: { answer: attributes_for(:answer), question_id: question } }
@@ -42,7 +45,7 @@ RSpec.describe AnswersController, type: :controller do
         patch :update, params: { id: answer, answer: attributes_for(:answer, :invalid) }
         answer.reload
 
-        expect(answer.body).to eq 'MyString'
+        expect(answer.body).to eq 'MyStringForAnswer'
       end
     end
   end

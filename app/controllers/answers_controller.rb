@@ -1,12 +1,15 @@
 class AnswersController < ApplicationController
+  before_action :authenticate_user!
   before_action :find_answer, only: %i[update destroy]
 
   def create
     question = Question.find(params[:question_id])
     @answer = question.answers.new(answer_params)
+    current_user.created_answers.push(@answer)
 
     if @answer.save
       flash[:success] = 'Answer was created!'
+      redirect_to @answer.question
     else
       flash[:danger] = 'Invalid input!'
     end
@@ -23,6 +26,7 @@ class AnswersController < ApplicationController
   def destroy
     @answer.destroy
     flash[:success] = 'Answer was destroyed!'
+    redirect_to @answer.question
   end
 
   private
