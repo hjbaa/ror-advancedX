@@ -1,9 +1,7 @@
 -flash.each do |type, msg|
   -if type == 'notice'
-    div class="alert alert-success"
+    div class="alert alert-success" =msg.html_safe
   -elsif type == 'alert'
-    div class="alert alert-danger"
+    div class="alert alert-danger" =msg.html_safe
   -else
-    div class="alert alert-#{type}"
-
-  =msg.html_safe
+    div class="alert alert-#{type}" =msg.html_safe

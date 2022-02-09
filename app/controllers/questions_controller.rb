@@ -1,4 +1,5 @@
 class QuestionsController < ApplicationController
+  before_action :authenticate_user!, except: %i[index show]
   before_action :find_question, only: %i[show edit update destroy]
 
   def index
@@ -13,6 +14,7 @@ class QuestionsController < ApplicationController
     @question = Question.new(question_params)
 
     if @question.save
+      flash[:success] = 'Your question successfully created.'
       redirect_to @question
     else
       render :new
@@ -21,6 +23,7 @@ class QuestionsController < ApplicationController
 
   def update
     if @question.update(question_params)
+      flash[:success] = 'Your question successfully updated.'
       redirect_to @question
     else
       render :edit
@@ -29,6 +32,7 @@ class QuestionsController < ApplicationController
 
   def destroy
     @question.destroy
+    flash[:success] = 'Your question successfully destroyed.'
     redirect_to questions_path
   end
 

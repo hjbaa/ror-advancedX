@@ -3,6 +3,7 @@ require 'rails_helper'
 # rubocop:disable Metrics/BlockLength
 RSpec.describe QuestionsController, type: :controller do
   let(:question) { create(:question) }
+  let(:user) { create(:user) }
 
   describe 'GET #index' do
     let(:questions) { create_list(:question, 3) }
@@ -31,6 +32,7 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'GET #new' do
+    before { login(user) }
     before { get :new }
 
     it 'should assign a new Question to @question' do
@@ -43,6 +45,7 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'GET #edit' do
+    before { login(user) }
     before { get :edit, params: { id: question } }
 
     it 'should assign the requested question to @question' do
@@ -55,6 +58,8 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'POST #create' do
+    before { login(user) }
+
     context 'Valid attributes' do
       it 'should save a new question to database' do
         expect { post :create, params: { question: attributes_for(:question) } }.to change(Question, :count).by(1)
@@ -82,6 +87,8 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'PATCH #update' do
+    before { login(user) }
+
     context 'Valid attributes' do
       it 'should assign the requested question to @question' do
         patch :update, params: { id: question, question: attributes_for(:question) }
@@ -119,6 +126,8 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
+    before { login(user) }
+
     let!(:question) { create(:question) }
 
     it 'should delete the question' do

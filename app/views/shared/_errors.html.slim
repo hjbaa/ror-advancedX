@@ -1,0 +1,6 @@
+-if object&.errors.present?
+  =content_tag :div, class: 'alert alert-danger' do
+    b ="#{object.errors.count} error(s) detected:"
+    ul class='mb-0'
+      -object.errors.full_messages.each do |msg|
+        li =msg
