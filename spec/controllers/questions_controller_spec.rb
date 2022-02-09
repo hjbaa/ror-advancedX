@@ -87,56 +87,76 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'PATCH #update' do
-    before { login(user) }
+    describe 'Author' do
+      before { login(user) }
 
-    context 'Valid attributes' do
-      it 'should assign the requested question to @question' do
-        patch :update, params: { id: question, question: attributes_for(:question) }
-        expect(assigns(:question)).to eq question
+      context 'Valid attributes' do
+        it 'should assign the requested question to @question' do
+          patch :update, params: { id: question, question: attributes_for(:question) }
+          expect(assigns(:question)).to eq question
+        end
+
+        it 'should change question attributes' do
+          patch :update, params: { id: question, question: { title: 'new title', body: 'new body' } }
+          question.reload
+
+          expect(question.title).to eq 'new title'
+          expect(question.body).to eq 'new body'
+        end
+
+        it 'should redirect to updated question' do
+          patch :update, params: { id: question, question: attributes_for(:question) }
+          expect(response).to redirect_to assigns(:question)
+        end
       end
 
-      it 'should change question attributes' do
-        patch :update, params: { id: question, question: { title: 'new title', body: 'new body' } }
-        question.reload
+      context 'Invalid attributes' do
+        before { patch :update, params: { id: question, question: attributes_for(:question, :invalid) } }
 
-        expect(question.title).to eq 'new title'
-        expect(question.body).to eq 'new body'
-      end
+        it 'should not change question attributes' do
+          question.reload
 
-      it 'should redirect to updated question' do
-        patch :update, params: { id: question, question: attributes_for(:question) }
-        expect(response).to redirect_to assigns(:question)
+          expect(question.title).to eq 'MyString'
+          expect(question.body).to eq 'MyText'
+        end
+
+        it 'should rerender edit view' do
+          expect(response).to render_template :edit
+        end
       end
     end
 
-    context 'Invalid attributes' do
-      before { patch :update, params: { id: question, question: attributes_for(:question, :invalid) } }
-
+    describe 'Not author' do
       it 'should not change question attributes' do
+        patch :update, params: { id: question, question: { title: 'new title', body: 'new body' } }
         question.reload
 
         expect(question.title).to eq 'MyString'
         expect(question.body).to eq 'MyText'
       end
-
-      it 'should rerender edit view' do
-        expect(response).to render_template :edit
-      end
     end
   end
 
   describe 'DELETE #destroy' do
-    before { login(user) }
+    let!(:question) { create(:question, author: user) }
 
-    let!(:question) { create(:question) }
+    describe 'Author' do
+      before { login(user) }
 
-    it 'should delete the question' do
-      expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(-1)
+      it 'should delete the question' do
+        expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(-1)
+      end
+
+      it 'should redirect to index' do
+        delete :destroy, params: { id: question }
+        expect(response).to redirect_to questions_path
+      end
     end
 
-    it 'should redirect to index' do
-      delete :destroy, params: { id: question }
-      expect(response).to redirect_to questions_path
+    describe 'Not author' do
+      it 'should not delete the question' do
+        expect { delete :destroy, params: { id: question } }.not_to change(Question, :count)
+      end
     end
   end
 end

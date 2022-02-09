@@ -22,17 +22,27 @@ class QuestionsController < ApplicationController
   end
 
   def update
-    if @question.update(question_params)
-      flash[:success] = 'Your question successfully updated.'
-      redirect_to @question
+    if @question.author == current_user
+      if @question.update(question_params)
+        flash[:success] = 'Your question successfully updated.'
+        redirect_to @question
+      else
+        render :edit
+      end
     else
-      render :edit
+      flash[:danger] = 'You are not allowed to do this!'
+      redirect_to @question
     end
   end
 
   def destroy
-    @question.destroy
-    flash[:success] = 'Your question successfully destroyed.'
+    if @question.author == current_user
+      @question.destroy
+      flash[:success] = 'Your question successfully destroyed.'
+    else
+      flash[:danger] = 'You are not allowed to do this!'
+    end
+
     redirect_to questions_path
   end
 
