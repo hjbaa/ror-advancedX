@@ -62,8 +62,6 @@ GEM
       zeitwerk (~> 2.3)
     addressable (2.8.0)
       public_suffix (>= 2.0.2, < 5.0)
-    archive-zip (0.12.0)
-      io-like (~> 0.3.0)
     bcrypt (3.1.16)
     bindex (0.8.1)
     bootsnap (1.10.2)
@@ -80,9 +78,6 @@ GEM
       regexp_parser (>= 1.5, < 3.0)
       xpath (~> 3.2)
     childprocess (4.1.0)
-    chromedriver-helper (2.1.1)
-      archive-zip (~> 0.10)
-      nokogiri (~> 1.8)
     concurrent-ruby (1.1.9)
     crass (1.0.6)
     devise (4.8.1)
@@ -103,10 +98,11 @@ GEM
       activesupport (>= 5.0)
     i18n (1.9.1)
       concurrent-ruby (~> 1.0)
-    io-like (0.3.1)
     jbuilder (2.11.5)
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
+    launchy (2.5.0)
+      addressable (~> 2.7)
     loofah (2.13.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
@@ -255,10 +251,10 @@ DEPENDENCIES
   bootsnap (>= 1.4.4)
   byebug
   capybara
-  chromedriver-helper
   devise
   factory_bot_rails (~> 6.2)
   jbuilder (~> 2.7)
+  launchy
   pg (~> 1.2, >= 1.2.3)
   puma (~> 5.0)
   rack-mini-profiler (~> 2.0)
