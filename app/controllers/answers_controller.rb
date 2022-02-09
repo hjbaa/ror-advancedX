@@ -1,9 +1,6 @@
 class AnswersController < ApplicationController
   before_action :find_answer, only: %i[update destroy]
 
-  # идея для вьюшек - сделать что-то на подобии stackoverflow, т.е. чтобы на одной странице можно было увидеть сразу
-  # кнопки для редактирования ответа (там же редактировать), удаления и добавления ответа. Причем форма добавления
-  # ответа показывается сразу и никуда не убирается
   def create
     question = Question.find(params[:question_id])
     @answer = question.answers.new(answer_params)
