@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 module ApplicationHelper
-  def current_user_is_author?(object)
-    object&.author == current_user
+  def style(type)
+    styles = { success: 'alert-success', alert: 'alert-danger', notice: 'alert-warning' }
+    styles[:"#{type}"]
   end
 end

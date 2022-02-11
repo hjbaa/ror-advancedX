@@ -21,7 +21,7 @@ ActiveRecord::Schema.define(version: 20_220_209_150_007) do
     t.bigint 'question_id'
     t.datetime 'created_at', precision: 6, null: false
     t.datetime 'updated_at', precision: 6, null: false
-    t.integer 'author_id'
+    t.bigint 'author_id'
     t.index ['author_id'], name: 'index_answers_on_author_id'
     t.index ['question_id'], name: 'index_answers_on_question_id'
   end
@@ -31,7 +31,7 @@ ActiveRecord::Schema.define(version: 20_220_209_150_007) do
     t.text 'body'
     t.datetime 'created_at', precision: 6, null: false
     t.datetime 'updated_at', precision: 6, null: false
-    t.integer 'author_id'
+    t.bigint 'author_id'
     t.index ['author_id'], name: 'index_questions_on_author_id'
   end
 

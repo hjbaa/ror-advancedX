@@ -9,14 +9,14 @@ class QuestionsController < ApplicationController
   end
 
   def new
-    @question = current_user.created_questions.new
+    @question = current_user.questions.new
   end
 
   def create
-    @question = current_user.created_questions.new(question_params)
+    @question = current_user.questions.new(question_params)
 
     if @question.save
-      flash[:success] = 'Your question successfully created.'
+      flash[:notice] = 'Your question successfully created.'
       redirect_to @question
     else
       render :new
@@ -24,7 +24,7 @@ class QuestionsController < ApplicationController
   end
 
   def update
-    if @question.author == current_user
+    if current_user.author_of?(@question)
       if @question.update(question_params)
         flash[:success] = 'Your question successfully updated.'
         redirect_to @question
@@ -38,7 +38,7 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    if @question.author == current_user
+    if current_user.author_of?(@question)
       @question.destroy
       flash[:success] = 'Your question successfully destroyed.'
     else

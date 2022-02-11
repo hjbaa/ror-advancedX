@@ -7,18 +7,19 @@ class AnswersController < ApplicationController
   def create
     question = Question.find(params[:question_id])
     @answer = question.answers.new(answer_params)
-    current_user.created_answers.push(@answer)
+    current_user.answers.push(@answer)
 
     if @answer.save
       flash[:success] = 'Answer was created!'
-      redirect_to @answer.question
     else
       flash[:danger] = 'Invalid input!'
     end
+
+    redirect_to @answer.question
   end
 
   def update
-    if @answer.author == current_user
+    if current_user.author_of?(@answer)
       if @answer.update(answer_params)
         flash[:success] = 'Answer was created!'
       else
@@ -32,7 +33,7 @@ class AnswersController < ApplicationController
   end
 
   def destroy
-    if @answer.author == current_user
+    if current_user.author_of?(@answer)
       @answer.destroy
       flash[:success] = 'Answer was destroyed!'
     else

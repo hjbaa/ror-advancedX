@@ -4,8 +4,10 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  has_many :created_questions, class_name: 'Question', foreign_key: 'author_id', dependent: :destroy
-  has_many :created_answers, class_name: 'Answer', foreign_key: 'author_id', dependent: :destroy
+  has_many :questions, foreign_key: 'author_id', dependent: :destroy
+  has_many :answers, foreign_key: 'author_id', dependent: :destroy
 
-  # TODO: добавить стили к девайсовским вьюшкам
+  def author_of?(object)
+    id == object.author.id
+  end
 end

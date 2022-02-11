@@ -10,22 +10,15 @@ h3 class="mb-4" ="Body: #{@question.body}"
       tr
         th Answer's body
         th Action
-    -@question.answers.each do |ans|
+    -@question.answers.each do |answer|
       tr
-        td =ans.body
+        td =answer.body
         td
           div class="btn-group" role="group"
-            / # TODO: пока поставлена заглушка для эдит, но, как я понял, в будущем мы сделаем так,
-            / чтобы исправлять тоже можно было на той же странцие
-            -if current_user_is_author?(ans)
+            -if current_user&.author_of?(answer)
               =link_to 'Edit', root_path, class: 'btn btn-outline-primary'
-              =link_to 'Destroy', answer_path(ans), class: 'btn btn-outline-danger',
+              =link_to 'Destroy', answer_path(answer), class: 'btn btn-outline-danger',
                       data: { method: :delete, confirm: 'Are you sure?'}
-            -else
-              = link_to 'Edit', root_path, class: 'btn btn-outline-primary disabled'
-              = link_to 'Destroy', answer_path(ans), class: 'btn btn-outline-danger disabled',
-                      data: { method: :delete, confirm: 'Are you sure?' }
-
 
 =form_with model: [@question, Answer.new], local: true do |f|
   div class="mb-3 row"
@@ -36,8 +29,6 @@ h3 class="mb-4" ="Body: #{@question.body}"
 
   =f.submit 'Submit answer', class: 'btn btn-outline-primary btn-md mb-4'
 
--if current_user_is_author?(@question)
+-if current_user&.author_of?(@question)
   =link_to 'Destroy question', question_path(@question), class: 'btn btn-danger btn-lg',
           data: { method: :delete, confirm: 'Are you sure?' }
--else
-  = link_to 'Destroy question', question_path(@question), class: 'btn btn-danger btn-lg disabled'
