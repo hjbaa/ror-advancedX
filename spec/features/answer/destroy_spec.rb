@@ -11,19 +11,21 @@ feature 'User can destroy his own answers' do
   scenario 'Author destroys his answer' do
     sign_in(author)
     visit question_path(question)
+    expect(page).to have_content answer.body
     click_on 'Destroy'
 
     expect(page).to have_content 'Answer was destroyed!'
+    expect(page).not_to have_content answer.body
   end
 
   scenario 'Unauthenticated user wants to destroy answer' do
     visit question_path(question)
-    expect(page.has_button?('Destroy')).to be_falsey
+    expect(page).not_to have_button 'Destroy'
   end
 
   scenario 'Not-author wants to destroy answer' do
     sign_in(user)
     visit question_path(question)
-    expect(page.has_button?('Destroy')).to be_falsey
+    expect(page).not_to have_button 'Destroy'
   end
 end

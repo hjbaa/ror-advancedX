@@ -15,7 +15,7 @@ class AnswersController < ApplicationController
       flash[:danger] = 'Invalid input!'
     end
 
-    redirect_to @answer.question
+    render 'questions/show', locals: { question: question, answer: @answer }
   end
 
   def update
@@ -29,7 +29,7 @@ class AnswersController < ApplicationController
       flash[:danger] = 'You are not allowed to do this!'
     end
 
-    redirect_to @answer.question
+    render 'questions/show', locals: { question: question, answer: @answer }
   end
 
   def destroy

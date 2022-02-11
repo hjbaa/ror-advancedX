@@ -11,19 +11,14 @@ RSpec.describe User, type: :model do
   describe 'Methods' do
     let(:first_user) { create(:user) }
     let(:second_user) { create(:user) }
-    let(:first_question) { create(:question, author: first_user) }
-    let(:second_question) { create(:question, author: second_user) }
+    let(:question) { create(:question, author: first_user) }
 
     it 'Should show that first user is author of first question' do
-      expect(first_user.author_of?(first_question)).to be_truthy
+      expect(first_user).to be_author_of(question)
     end
 
-    it 'Should show that first user is not author of second question' do
-      expect(first_user.author_of?(second_question)).to be_falsey
-    end
-
-    it 'Should show that second user is author of second question' do
-      expect(second_user.author_of?(second_question)).to be_truthy
+    it 'Should show that second user is not author of first question' do
+      expect(second_user).not_to be_author_of(question)
     end
   end
 end

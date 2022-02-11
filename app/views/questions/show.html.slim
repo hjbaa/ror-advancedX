@@ -1,8 +1,14 @@
+-@question ||= local_assigns[:question]
+/ Не нашел ничего более красивого, кроме как сделать через local_assigns и через присваивание.
+/ Также столкнулся с проблемой, которая возникает из-за того, что мы рендерим эту вьюху из answers#create:
+/ после создания вопроса (любого, как невалидного и как валидного), которая заключается в том, что юрл становится
+/ questions/:id/answers, вместо questions/:id. На это стоит закрыть глаза, или
+
 h1 class="mb-4" =@question.title
 
 h3 class="mb-4" ="Body: #{@question.body}"
 
--if @question.answers.any?
+-if @question.answers.present?
   h5 Answers:
 
   table class="table mb-5 text-center"
@@ -11,6 +17,8 @@ h3 class="mb-4" ="Body: #{@question.body}"
         th Answer's body
         th Action
     -@question.answers.each do |answer|
+      -next if answer.id.nil?
+      / костыль, который нужен, чтобы отображать корректно, т.к. в answers#create создается пустой ответ, не сохраненный в бд
       tr
         td =answer.body
         td
@@ -20,6 +28,7 @@ h3 class="mb-4" ="Body: #{@question.body}"
               =link_to 'Destroy', answer_path(answer), class: 'btn btn-outline-danger',
                       data: { method: :delete, confirm: 'Are you sure?'}
 
+=render 'shared/errors', object: local_assigns[:answer]
 =form_with model: [@question, Answer.new], local: true do |f|
   div class="mb-3 row"
     div class="col-sm-2 col-form-label"
