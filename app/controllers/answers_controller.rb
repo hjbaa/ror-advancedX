@@ -29,7 +29,7 @@ class AnswersController < ApplicationController
       flash[:danger] = 'You are not allowed to do this!'
     end
 
-    render 'questions/show', locals: { question: question, answer: @answer }
+    render 'questions/show', locals: { question: @answer.question, answer: @answer }
   end
 
   def destroy
