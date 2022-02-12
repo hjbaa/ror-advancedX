@@ -53,6 +53,7 @@ group :test do
   gem 'rails-controller-testing'
   gem 'selenium-webdriver'
   gem 'shoulda-matchers', '~> 5.0'
+  gem 'simplecov', '~> 0.21.2'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
