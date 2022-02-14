@@ -22,7 +22,7 @@ feature 'User can answer for question' do
       visit question_path(question)
       click_on 'Submit answer'
 
-      expect(page).to have_content 'Invalid input!'
+      expect(page).to have_content "Body can't be blank"
     end
   end
 

@@ -50,7 +50,9 @@ class QuestionsController < ApplicationController
 
   def edit; end
 
-  def show; end
+  def show
+    @answer = Answer.new
+  end
 
   private
 

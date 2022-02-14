@@ -5,17 +5,16 @@ class AnswersController < ApplicationController
   before_action :find_answer, only: %i[update destroy]
 
   def create
-    question = Question.find(params[:question_id])
-    @answer = question.answers.new(answer_params)
+    @question = Question.find(params[:question_id])
+    @answer = @question.answers.new(answer_params)
     current_user.answers.push(@answer)
 
     if @answer.save
       flash[:success] = 'Answer was created!'
+      redirect_to @question
     else
-      flash[:danger] = 'Invalid input!'
+      render 'questions/show'
     end
-
-    render 'questions/show', locals: { question: question, answer: @answer }
   end
 
   def update
@@ -29,7 +28,7 @@ class AnswersController < ApplicationController
       flash[:danger] = 'You are not allowed to do this!'
     end
 
-    render 'questions/show', locals: { question: @answer.question, answer: @answer }
+    render 'questions/show'
   end
 
   def destroy
