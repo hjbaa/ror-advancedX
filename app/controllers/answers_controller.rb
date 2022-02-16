@@ -1,31 +1,44 @@
+# frozen_string_literal: true
+
 class AnswersController < ApplicationController
+  before_action :authenticate_user!
   before_action :find_answer, only: %i[update destroy]
 
-  # идея для вьюшек - сделать что-то на подобии stackoverflow, т.е. чтобы на одной странице можно было увидеть сразу
-  # кнопки для редактирования ответа (там же редактировать), удаления и добавления ответа. Причем форма добавления
-  # ответа показывается сразу и никуда не убирается
   def create
-    question = Question.find(params[:question_id])
-    @answer = question.answers.new(answer_params)
+    @question = Question.find(params[:question_id])
+    @answer = @question.answers.new(answer_params)
+    current_user.answers.push(@answer)
 
     if @answer.save
       flash[:success] = 'Answer was created!'
+      redirect_to @question
     else
-      flash[:danger] = 'Invalid input!'
+      render 'questions/show'
     end
   end
 
   def update
-    if @answer.update(answer_params)
-      flash[:success] = 'Answer was created!'
+    if current_user.author_of?(@answer)
+      if @answer.update(answer_params)
+        flash[:success] = 'Answer was created!'
+      else
+        flash[:danger] = 'Invalid input!'
+      end
     else
-      flash[:danger] = 'Invalid input!'
+      flash[:danger] = 'You are not allowed to do this!'
     end
+
+    render 'questions/show'
   end
 
   def destroy
-    @answer.destroy
-    flash[:success] = 'Answer was destroyed!'
+    if current_user.author_of?(@answer)
+      @answer.destroy
+      flash[:success] = 'Answer was destroyed!'
+    else
+      flash[:danger] = 'You are not allowed to do this!'
+    end
+    redirect_to @answer.question
   end
 
   private

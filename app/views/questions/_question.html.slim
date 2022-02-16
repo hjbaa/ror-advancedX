@@ -1,0 +1,6 @@
+div class="card text-black bg-light m-1 mb-4 d-inline-block" style="max-width: 20rem;"
+  div class="card-body"
+    h3 class="card-title" =question.title
+    small ="Number of answers: #{question.answers.count}"
+  div class="card-footer text-center"
+    =link_to 'Show', question_path(question), class: 'btn btn-outline-primary'

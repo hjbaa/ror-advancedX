@@ -1,8 +1,11 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 # rubocop:disable Metrics/BlockLength
 RSpec.describe QuestionsController, type: :controller do
-  let(:question) { create(:question) }
+  let(:user) { create(:user) }
+  let(:question) { create(:question, author: user) }
 
   describe 'GET #index' do
     let(:questions) { create_list(:question, 3) }
@@ -31,6 +34,7 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'GET #new' do
+    before { login(user) }
     before { get :new }
 
     it 'should assign a new Question to @question' do
@@ -43,6 +47,7 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'GET #edit' do
+    before { login(user) }
     before { get :edit, params: { id: question } }
 
     it 'should assign the requested question to @question' do
@@ -55,6 +60,8 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'POST #create' do
+    before { login(user) }
+
     context 'Valid attributes' do
       it 'should save a new question to database' do
         expect { post :create, params: { question: attributes_for(:question) } }.to change(Question, :count).by(1)
@@ -78,56 +85,79 @@ RSpec.describe QuestionsController, type: :controller do
         expect(response).to render_template :new
       end
     end
-
   end
 
   describe 'PATCH #update' do
-    context 'Valid attributes' do
-      it 'should assign the requested question to @question' do
-        patch :update, params: { id: question, question: attributes_for(:question) }
-        expect(assigns(:question)).to eq question
+    describe 'Author' do
+      before { login(user) }
+
+      context 'Valid attributes' do
+        it 'should assign the requested question to @question' do
+          patch :update, params: { id: question, question: attributes_for(:question) }
+          expect(assigns(:question)).to eq question
+        end
+
+        it 'should change question attributes' do
+          patch :update, params: { id: question, question: { title: 'new title', body: 'new body' } }
+          question.reload
+
+          expect(question.title).to eq 'new title'
+          expect(question.body).to eq 'new body'
+        end
+
+        it 'should redirect to updated question' do
+          patch :update, params: { id: question, question: attributes_for(:question) }
+          expect(response).to redirect_to assigns(:question)
+        end
       end
 
-      it 'should change question attributes' do
-        patch :update, params: { id: question, question: { title: 'new title', body: 'new body' } }
-        question.reload
+      context 'Invalid attributes' do
+        before { patch :update, params: { id: question, question: attributes_for(:question, :invalid) } }
 
-        expect(question.title).to eq 'new title'
-        expect(question.body).to eq 'new body'
-      end
+        it 'should not change question attributes' do
+          question.reload
 
-      it 'should redirect to updated question' do
-        patch :update, params: { id: question, question: attributes_for(:question) }
-        expect(response).to redirect_to assigns(:question)
+          expect(question.title).to eq 'MyString'
+          expect(question.body).to eq 'MyText'
+        end
+
+        it 'should rerender edit view' do
+          expect(response).to render_template :edit
+        end
       end
     end
 
-    context 'Invalid attributes' do
-      before { patch :update, params: { id: question, question: attributes_for(:question, :invalid) } }
-
+    describe 'Not author' do
       it 'should not change question attributes' do
+        patch :update, params: { id: question, question: { title: 'new title', body: 'new body' } }
         question.reload
 
         expect(question.title).to eq 'MyString'
         expect(question.body).to eq 'MyText'
       end
-
-      it 'should rerender edit view' do
-        expect(response).to render_template :edit
-      end
     end
   end
 
   describe 'DELETE #destroy' do
-    let!(:question) { create(:question) }
+    let!(:question) { create(:question, author: user) }
 
-    it 'should delete the question' do
-      expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(-1)
+    describe 'Author' do
+      before { login(user) }
+
+      it 'should delete the question' do
+        expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(-1)
+      end
+
+      it 'should redirect to index' do
+        delete :destroy, params: { id: question }
+        expect(response).to redirect_to questions_path
+      end
     end
 
-    it 'should redirect to index' do
-      delete :destroy, params: { id: question }
-      expect(response).to redirect_to questions_path
+    describe 'Not author' do
+      it 'should not delete the question' do
+        expect { delete :destroy, params: { id: question } }.not_to change(Question, :count)
+      end
     end
   end
 end

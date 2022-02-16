@@ -3,8 +3,9 @@
 FactoryBot.define do
   factory :answer do
     association :question
+    association :author, factory: :user
 
-    body { 'MyString' }
+    body { 'MyStringForAnswer' }
 
     trait :invalid do
       body { nil }
