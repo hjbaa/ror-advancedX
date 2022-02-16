@@ -24,17 +24,9 @@ class QuestionsController < ApplicationController
   end
 
   def update
-    if current_user.author_of?(@question)
-      if @question.update(question_params)
-        flash[:success] = 'Your question successfully updated.'
-        redirect_to @question
-      else
-        render :edit
-      end
-    else
-      flash[:danger] = 'You are not allowed to do this!'
-      redirect_to @question
-    end
+    return unless current_user.author_of?(@question)
+
+    @question.update(question_params)
   end
 
   def destroy
@@ -47,8 +39,6 @@ class QuestionsController < ApplicationController
 
     redirect_to questions_path
   end
-
-  def edit; end
 
   def show
     @answer = Answer.new

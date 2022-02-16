@@ -1,6 +1,4 @@
-h1 class="mb-4" =@question.title
-=render 'shared/errors', object: @answer
-h3 class="mb-4" =@question.body
+=render 'question-header', question: @question
 
 hr class="mb-4"
 
@@ -21,6 +19,3 @@ hr class="mb-4"
 
   =f.submit 'Submit answer', class: 'btn btn-outline-primary btn-md mb-4'
 
--if current_user&.author_of?(@question)
-  =link_to 'Destroy question', question_path(@question), class: 'btn btn-danger btn-lg',
-          data: { method: :delete, confirm: 'Are you sure?' }
