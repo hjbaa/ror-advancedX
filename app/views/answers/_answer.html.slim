@@ -1,6 +1,24 @@
-p =answer.body
--if current_user&.author_of?(answer)
-  div class="btn-group mb-5"
-    =link_to 'Edit', '#', class: 'btn btn-outline-primary'
-    =link_to 'Destroy', answer_path(answer), class: 'btn btn-outline-danger',
-            data: { method: :delete, confirm: 'Are you sure?' }
+div class="mb-4 row"
+  .col-sm-7
+    p =answer.body
+    -if current_user&.author_of?(answer)
+      .row
+        =content_tag :div, class: "#{answer.id}-answer-errors"
+          = render 'shared/errors', object: answer
+        = form_with model: answer, html: { id: "edit-answer-#{answer.id}" }, class: 'form-inline hidden', local: false do |f|
+          div class="input-group align-items-center"
+            .input-group-prepend
+              .input-group-text
+                =f.label :body, 'Your answer'
+            = f.text_area :body, class: 'form-control'
+            = f.submit 'Save', class: 'btn btn-md btn-outline-success'
+
+  .col-sm-2
+    -if current_user&.author_of?(answer)
+      .btn-group
+        =link_to 'Edit', '#', class: 'btn btn-outline-primary edit-answer-btn', data: { answer_id: answer.id }
+        =link_to 'Destroy', answer_path(answer), class: 'btn btn-outline-danger',
+                data: { method: :delete, confirm: 'Are you sure?' }
+
+  .col-sm-3
+    p ="Author: #{answer.author.email}"

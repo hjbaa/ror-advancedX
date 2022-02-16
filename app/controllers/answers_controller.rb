@@ -10,17 +10,19 @@ class AnswersController < ApplicationController
   end
 
   def update
-    if current_user.author_of?(@answer)
-      if @answer.update(answer_params)
-        flash[:success] = 'Answer was updated!'
-      else
-        flash[:danger] = 'Invalid input!'
-      end
-    else
-      flash[:danger] = 'You are not allowed to do this!'
-    end
-
-    render 'questions/show'
+    # if current_user.author_of?(@answer)
+    #   if @answer.update(answer_params)
+    #     flash[:success] = 'Answer was updated!'
+    #   else
+    #     flash[:danger] = 'Invalid input!'
+    #   end
+    # else
+    #   flash[:danger] = 'You are not allowed to do this!'
+    # end
+    #
+    # render 'questions/show'
+    @answer.update(answer_params)
+    @question = @answer.question
   end
 
   def destroy

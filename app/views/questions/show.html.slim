@@ -1,5 +1,5 @@
 h1 class="mb-4" =@question.title
-
+=render 'shared/errors', object: @answer
 h3 class="mb-4" =@question.body
 
 hr class="mb-4"
@@ -9,14 +9,14 @@ hr class="mb-4"
 
 hr class="mb-4"
 
-.answer-errors
+.new-answer-errors
   =render 'shared/errors', object: @answer
 
 =form_with model: [@question, @answer], local: false, class: 'new-answer' do |f|
   div class="mb-3 row"
     div class="col-sm-2 col-form-label"
       =f.label :body, 'Your answer'
-    div class="col-sm-10 col-form-label"
+    div class="col-sm-10"
       =f.text_area :body, class: 'form-control'
 
   =f.submit 'Submit answer', class: 'btn btn-outline-primary btn-md mb-4'

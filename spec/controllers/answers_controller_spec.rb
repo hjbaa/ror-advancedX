@@ -16,6 +16,11 @@ RSpec.describe AnswersController, type: :controller do
         expect { post :create, params: { answer: attributes_for(:answer), question_id: question }, format: :js }
           .to change(question.answers, :count).by(1)
       end
+
+      it 'should render create template' do
+        post :create, params: { answer: attributes_for(:answer), question_id: question }, format: :js
+        expect(response).to render_template :create
+      end
     end
 
     context 'Invalid attributes' do
@@ -23,6 +28,11 @@ RSpec.describe AnswersController, type: :controller do
         expect do
           post :create, params: { answer: attributes_for(:answer, :invalid), question_id: question, format: :js }
         end.to_not change(Answer, :count)
+      end
+
+      it 'should render create template' do
+        post :create, params: { answer: attributes_for(:answer), question_id: question }, format: :js
+        expect(response).to render_template :create
       end
     end
   end
@@ -33,24 +43,34 @@ RSpec.describe AnswersController, type: :controller do
 
       context 'Valid attributes' do
         it 'should assign the requested answer to @answer' do
-          patch :update, params: { id: answer, answer: attributes_for(:answer) }
+          patch :update, params: { id: answer, answer: attributes_for(:answer), format: :js }
           expect(assigns(:answer)).to eq answer
         end
 
         it 'should change answer attributes' do
-          patch :update, params: { id: answer, answer: { body: 'new body' } }
+          patch :update, params: { id: answer, answer: { body: 'new body' }, format: :js }
           answer.reload
 
           expect(answer.body).to eq 'new body'
+        end
+
+        it 'should render update template' do
+          patch :update, params: { id: answer, answer: { body: 'new body' }, format: :js }
+          expect(response).to render_template :update
         end
       end
 
       context 'Invalid attributes' do
         it 'should not change answer attributes' do
-          patch :update, params: { id: answer, answer: attributes_for(:answer, :invalid) }
+          patch :update, params: { id: answer, answer: attributes_for(:answer, :invalid), format: :js }
           answer.reload
 
           expect(answer.body).to eq 'MyStringForAnswer'
+        end
+
+        it 'should render update template' do
+          patch :update, params: { id: answer, answer: { body: 'new body' }, format: :js }
+          expect(response).to render_template :update
         end
       end
     end
