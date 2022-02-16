@@ -13,7 +13,7 @@ RSpec.describe AnswersController, type: :controller do
 
     context 'Valid attributes' do
       it 'should save a new answer to database as child element for question' do
-        expect { post :create, params: { answer: attributes_for(:answer), question_id: question } }
+        expect { post :create, params: { answer: attributes_for(:answer), question_id: question }, format: :js }
           .to change(question.answers, :count).by(1)
       end
     end
@@ -21,7 +21,7 @@ RSpec.describe AnswersController, type: :controller do
     context 'Invalid attributes' do
       it 'should not save a new answer to database' do
         expect do
-          post :create, params: { answer: attributes_for(:answer, :invalid), question_id: question }
+          post :create, params: { answer: attributes_for(:answer, :invalid), question_id: question, format: :js }
         end.to_not change(Answer, :count)
       end
     end

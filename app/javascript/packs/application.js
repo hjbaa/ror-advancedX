@@ -10,6 +10,7 @@ import "channels"
 
 import '@popperjs/core'
 import 'bootstrap/js/dist/dropdown'
+import 'jquery'
 
 Rails.start()
 Turbolinks.start()

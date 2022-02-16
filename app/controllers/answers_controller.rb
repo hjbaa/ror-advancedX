@@ -6,21 +6,13 @@ class AnswersController < ApplicationController
 
   def create
     @question = Question.find(params[:question_id])
-    @answer = @question.answers.new(answer_params)
-    current_user.answers.push(@answer)
-
-    if @answer.save
-      flash[:success] = 'Answer was created!'
-      redirect_to @question
-    else
-      render 'questions/show'
-    end
+    @answer = @question.answers.create(answer_params.merge(author: current_user))
   end
 
   def update
     if current_user.author_of?(@answer)
       if @answer.update(answer_params)
-        flash[:success] = 'Answer was created!'
+        flash[:success] = 'Answer was updated!'
       else
         flash[:danger] = 'Invalid input!'
       end
