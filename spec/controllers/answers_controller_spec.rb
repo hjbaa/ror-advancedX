@@ -92,18 +92,18 @@ RSpec.describe AnswersController, type: :controller do
       before { login(user) }
 
       it 'should delete the question' do
-        expect { delete :destroy, params: { id: answer } }.to change(Answer, :count).by(-1)
+        expect { delete :destroy, params: { id: answer }, format: :js }.to change(Answer, :count).by(-1)
       end
 
       it 'should redirect to question' do
-        delete :destroy, params: { id: answer }
-        expect(response).to redirect_to question
+        delete :destroy, params: { id: answer }, format: :js
+        expect(response).to render_template :destroy
       end
     end
 
     describe 'Not author' do
       it 'should not delete the question' do
-        expect { delete :destroy, params: { id: answer } }.not_to change(Answer, :count)
+        expect { delete :destroy, params: { id: answer }, format: :js }.not_to change(Answer, :count)
       end
     end
   end

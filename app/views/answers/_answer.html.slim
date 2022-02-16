@@ -1,4 +1,4 @@
-div class="mb-4 row"
+div class="mb-4 row" id="#{answer.id}"
   .col-sm-7
     p =answer.body
     -if current_user&.author_of?(answer)
@@ -18,7 +18,7 @@ div class="mb-4 row"
       .btn-group
         =link_to 'Edit', '#', class: 'btn btn-outline-primary edit-answer-btn', data: { answer_id: answer.id }
         =link_to 'Destroy', answer_path(answer), class: 'btn btn-outline-danger',
-                data: { method: :delete, confirm: 'Are you sure?' }
+                data: { method: :delete, confirm: 'Are you sure?', remote: true }
 
   .col-sm-3
     p ="Author: #{answer.author.email}"

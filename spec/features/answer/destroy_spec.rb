@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-feature 'User can destroy his own answers' do
+feature 'User can destroy his own answers', js: true do
   given(:author) { create(:user) }
   given(:user) { create(:user) }
   given!(:question) { create(:question, author: author) }
@@ -13,8 +13,8 @@ feature 'User can destroy his own answers' do
     visit question_path(question)
     expect(page).to have_content answer.body
     click_on 'Destroy'
+    page.accept_confirm
 
-    expect(page).to have_content 'Answer was destroyed!'
     expect(page).not_to have_content answer.body
   end
 

@@ -39,7 +39,7 @@ RSpec.configure do |config|
   config.include FeatureHelpers, type: :feature
 
   Capybara.javascript_driver = :selenium_chrome_headless
-  Selenium::WebDriver::Chrome.driver_path = 'C:\Users\egsk\AppData\Local\Google\Chrome\Application\chromedriver.exe'
+  Selenium::WebDriver::Chrome::Service.driver_path = 'C:\Users\egsk\AppData\Local\Google\Chrome\Application\chromedriver.exe'
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
 
