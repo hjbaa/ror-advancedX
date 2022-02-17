@@ -4,7 +4,12 @@
 hr class="mb-4"
 
 .answers
-  =render @question.answers
+  .best_answer
+    - unless @question.best_answer.nil?
+      =render @question.best_answer
+
+  .all_answers
+    =render @question.answers_without_best
 
 hr class="mb-4"
 

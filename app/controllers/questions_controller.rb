@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 class QuestionsController < ApplicationController
-  before_action :authenticate_user!, except: %i[index show]
-  before_action :find_question, only: %i[show edit update destroy]
+  before_action :authenticate_user!, except: %i[index show mark_best_answer]
+  before_action :find_question, only: %i[show edit update destroy mark_best_answer]
 
   def index
     @questions = Question.all
@@ -44,6 +44,18 @@ class QuestionsController < ApplicationController
     @answer = Answer.new
   end
 
+  def mark_best_answer
+    return unless current_user&.author_of?(@question)
+
+    @answer = Answer.find(params[:answer_id])
+
+    if @question.best_answer == @answer
+      @question.update(best_answer: nil)
+    else
+      @question.update(best_answer: @answer)
+    end
+  end
+
   private
 
   def find_question
@@ -51,6 +63,6 @@ class QuestionsController < ApplicationController
   end
 
   def question_params
-    params.require(:question).permit(:title, :body)
+    params.require(:question).permit(:title, :body, :best_answer_id)
   end
 end

@@ -147,5 +147,47 @@ RSpec.describe QuestionsController, type: :controller do
       end
     end
   end
+
+  describe 'POST #mark_best_answer' do
+    let!(:question) { create(:question, author: user) }
+    let!(:answer) { create(:answer, question: question, author: user) }
+
+    describe 'Author' do
+      before { login(user) }
+
+      it 'should not assign @question to question' do
+        post :mark_best_answer, params: { id: question.id, answer_id: answer.id, format: :js }
+        expect(assigns(:question)).to eq question
+      end
+
+      it 'should not assign @answer to answer' do
+        post :mark_best_answer, params: { id: question.id, answer_id: answer.id, format: :js }
+        expect(assigns(:answer)).to eq answer
+      end
+
+      it 'should assign best answer for question' do
+        post :mark_best_answer, params: { id: question.id, answer_id: answer.id, format: :js }
+        expect(assigns(:question).best_answer).to eq answer
+      end
+
+      it 'should assign nil to best_answer' do
+        post :mark_best_answer, params: { id: question.id, answer_id: answer.id, format: :js }
+        post :mark_best_answer, params: { id: question.id, answer_id: answer.id, format: :js }
+        expect(assigns(:question).best_answer).to be_nil
+      end
+
+      it 'should render mark_best_answer template' do
+        post :mark_best_answer, params: { id: question.id, answer_id: answer.id, format: :js }
+        expect(response).to render_template :mark_best_answer
+      end
+    end
+
+    describe 'Not author' do
+      it 'should not assign best answer to question' do
+        post :mark_best_answer, params: { id: question.id, answer_id: answer.id, format: :js }
+        expect(assigns(:question).best_answer).to be_nil
+      end
+    end
+  end
 end
 # rubocop:enable Metrics/BlockLength
