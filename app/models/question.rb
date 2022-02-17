@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Question < ApplicationRecord
-  has_many :answers, dependent: :destroy
+  has_many :answers
 
   belongs_to :author, class_name: 'User'
   # TODO: удаление лучшего ответа

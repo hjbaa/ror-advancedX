@@ -1,11 +1,12 @@
 div class="mb-4 row" id="#{answer.id}"
   .col-sm-6
-    -if answer.question.best_answer == answer
+    -if answer.best?
       p
         strong Best answer: &nbsp;
         =answer.body
     -else
       p =answer.body
+
     -if current_user&.author_of?(answer)
       .row
         =content_tag :div, class: "#{answer.id}-answer-errors"
@@ -22,7 +23,7 @@ div class="mb-4 row" id="#{answer.id}"
     .btn-group
 
       -if current_user&.author_of?(answer.question)
-        = link_to answer.question.best_answer == answer ? 'Unmark' : 'Best',
+        = link_to answer.best? ? 'Unmark' : 'Best',
                 best_answer_question_path(answer.question, answer),
                 class: 'btn btn-outline-success',
                 data: { method: :post, remote: true }
@@ -31,7 +32,9 @@ div class="mb-4 row" id="#{answer.id}"
 
         =link_to 'Edit', '#', class: 'btn btn-outline-primary edit-answer-btn', data: { answer_id: answer.id }
 
-        =link_to 'Destroy', answer_path(answer), class: 'btn btn-outline-danger',
+        =link_to 'Destroy',
+                answer_path(answer),
+                class: answer.best? ? 'btn btn-outline-danger disabled' : 'btn btn-outline-danger',
                 data: { method: :delete, confirm: 'Are you sure?', remote: true }
 
 
