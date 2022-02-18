@@ -1,6 +1,6 @@
 bestAnswerDiv = $('.best_answer')
 
-<% if @question.best_answer  %>
+<% if @question.best_answer %>
   bestAnswerDiv.html('<%= j render @question.best_answer %>');
 <% else %>
   bestAnswerDiv.html('');

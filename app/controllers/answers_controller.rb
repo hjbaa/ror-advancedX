@@ -10,14 +10,14 @@ class AnswersController < ApplicationController
   end
 
   def update
-    return unless current_user.author_of?(@answer)
+    return head(:forbidden) unless current_user.author_of?(@answer)
 
     @answer.update(answer_params)
     @question = @answer.question
   end
 
   def destroy
-    return unless current_user.author_of?(@answer)
+    return head(:forbidden) unless current_user.author_of?(@answer)
 
     @question = @answer.question
     @answer.destroy

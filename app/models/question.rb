@@ -10,14 +10,8 @@ class Question < ApplicationRecord
   validates :body, :title, presence: true
 
   def answers_without_best
-    answers if best_answer.nil?
+    return answers unless best_answer_id
 
-    tmp = []
-    answers.each do |answer|
-      next if answer == best_answer
-
-      tmp << answer
-    end
-    tmp
+    answers.where('id != ?', best_answer_id)
   end
 end

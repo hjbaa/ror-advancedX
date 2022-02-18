@@ -24,7 +24,7 @@ class QuestionsController < ApplicationController
   end
 
   def update
-    return unless current_user.author_of?(@question)
+    return head(:forbidden) unless current_user.author_of?(@question)
 
     @question.update(question_params)
   end
@@ -45,11 +45,11 @@ class QuestionsController < ApplicationController
   end
 
   def mark_best_answer
-    return unless current_user&.author_of?(@question)
+    return head(:forbidden) unless current_user&.author_of?(@question)
 
     @answer = Answer.find(params[:answer_id])
 
-    if @question.best_answer == @answer
+    if @answer.best_for?(@question)
       @question.update(best_answer: nil)
     else
       @question.update(best_answer: @answer)

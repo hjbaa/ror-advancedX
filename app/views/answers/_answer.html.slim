@@ -1,4 +1,4 @@
-div class="mb-4 row" id="#{answer.id}"
+div class="mb-4 row" id="answer-#{answer.id}"
   .col-sm-6
     -if answer.best?
       p
@@ -9,10 +9,10 @@ div class="mb-4 row" id="#{answer.id}"
 
     -if current_user&.author_of?(answer)
       .row
-        =content_tag :div, class: "#{answer.id}-answer-errors"
+        div class="#{answer.id}-answer-errors"
           = render 'shared/errors', object: answer
         = form_with model: answer, html: { id: "edit-answer-#{answer.id}" }, class: 'form-inline hidden', local: false do |f|
-          div class="input-group align-items-center"
+          .input-group.align-items-center
             .input-group-prepend
               .input-group-text
                 =f.label :body, 'Your answer'
