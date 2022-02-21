@@ -28,8 +28,6 @@ class AnswersController < ApplicationController
 
     @attached_file = ActiveStorage::Attachment.find(params[:attachment_id])
     @attached_file.purge
-    flash[:success] = 'Attachment destroyed!'
-    redirect_to @answer.question
   end
 
   private

@@ -4,13 +4,13 @@ h3 class="mb-4" =question.body
 -if @question.files.attached?
   .attachments.mb-4
     -@question.files.each do |file|
-      div class="row mb-1" id="attach-id-#{file.id}"
+      div class="row mb-1" id="question-attach-id-#{file.id}"
         .col-sm-3
           p= link_to file.filename.to_s, url_for(file)
         .col-sm-9
           =link_to 'Delete this file', destroy_attach_question_path(attachment_id: file.id),
                   class: 'btn btn-outline-danger',
-                  data: { method: :delete, confirm: 'Are you sure?' }
+                  data: { method: :delete, confirm: 'Are you sure?', remote: true }
 
 .errors
   =render 'shared/errors', object: question
