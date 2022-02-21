@@ -24,11 +24,20 @@ feature 'User can create question' do
     end
 
     scenario 'asks a question with errors' do
-      visit questions_path
-      click_on 'Ask question'
       click_on 'Submit'
 
       expect(page).to have_content "Title can't be blank"
+    end
+
+    scenario 'asks a question with attachments' do
+      fill_in 'Your question', with: 'Question title'
+      fill_in 'Description', with: 'text text text'
+      attach_file 'Add files', %W[#{Rails.root}/spec/rails_helper.rb #{Rails.root}/spec/spec_helper.rb]
+
+      click_on 'Submit'
+
+      expect(page).to have_link 'rails_helper.rb'
+      expect(page).to have_link 'spec_helper.rb'
     end
   end
 

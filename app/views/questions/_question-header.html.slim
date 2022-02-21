@@ -1,6 +1,10 @@
 h1 class="mb-4" =question.title
 h3 class="mb-4" =question.body
 
+-if @question.files.attached?
+  -@question.files.each do |file|
+    p= link_to file.filename.to_s, url_for(file)
+
 .errors
   =render 'shared/errors', object: question
 
