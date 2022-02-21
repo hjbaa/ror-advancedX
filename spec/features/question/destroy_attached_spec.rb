@@ -2,9 +2,8 @@
 
 require 'rails_helper'
 
-feature 'User can delete the files attached to the question' do
+feature 'User can delete the files attached to the question', js: true do
   given(:user) { create(:user) }
-  given(:second_user) { create(:user) }
 
   background do
     sign_in user
@@ -19,7 +18,7 @@ feature 'User can delete the files attached to the question' do
 
   scenario 'destroys his attachments' do
     click_on 'Delete this file'
-
+    page.accept_confirm
     expect(page).to_not have_link 'rails_helper.rb'
   end
 end

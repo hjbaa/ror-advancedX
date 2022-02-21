@@ -5,7 +5,11 @@ Rails.application.routes.draw do
   root 'questions#index'
 
   resources :questions, except: :edit do
-    resources :answers, shallow: true, only: %i[create update destroy]
+    resources :answers, shallow: true, only: %i[create update destroy] do
+      member do
+        delete 'destroy_attachment/:attachment_id', to: 'answers#destroy_attachment', as: :destroy_attachment
+      end
+    end
 
     member do
       post 'best_answer/:answer_id', to: 'questions#mark_best_answer', as: :best_answer
