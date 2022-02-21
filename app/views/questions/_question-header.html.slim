@@ -8,7 +8,8 @@ h3 class="mb-4" =question.body
         .col-sm-3
           p= link_to file.filename.to_s, url_for(file)
         .col-sm-9
-          =link_to 'Delete this file', destroy_attach_question_path(attachment_id: file.id), class: 'btn btn-outline-danger',
+          =link_to 'Delete this file', destroy_attach_question_path(attachment_id: file.id),
+                  class: 'btn btn-outline-danger',
                   data: { method: :delete, confirm: 'Are you sure?' }
 
 .errors
@@ -31,13 +32,13 @@ h3 class="mb-4" =question.body
       .col-sm-2.col-form-label
         = f.label :files, 'Add files'
       .col-sm-10.col-form-label
-        = f.file_field :files, multiple: true
+        = f.file_field :files, multiple: true, direct_upload: true
 
   = f.submit 'Save', class: 'btn btn-outline-success btn-md mb-4'
 
 -if current_user&.author_of?(@question)
-div class="btn-group"
-  =link_to 'Edit question', '#', class: 'btn btn-primary btn-lg edit-question-btn'
+  .btn-group
+    =link_to 'Edit question', '#', class: 'btn btn-primary btn-lg edit-question-btn'
 
-  =link_to 'Destroy question', question_path(@question), class: 'btn btn-danger btn-lg',
-          data: { method: :delete, confirm: 'Are you sure?' }
+    =link_to 'Destroy question', question_path(@question), class: 'btn btn-danger btn-lg',
+            data: { method: :delete, confirm: 'Are you sure?' }

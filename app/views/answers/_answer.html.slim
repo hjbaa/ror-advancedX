@@ -20,7 +20,8 @@ div class="mb-4 row" id="answer-#{answer.id}"
               = f.text_area :body, class: 'form-control'
           .row.mb-3
             =f.label :files, 'Add files'
-            =f.file_field :files, multiple: true
+            =f.file_field :files, multiple: true, direct_upload: true
+
           =f.submit 'Save', class: 'btn btn-md btn-outline-success'
 
   .col-sm-3
