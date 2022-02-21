@@ -111,6 +111,9 @@ GEM
       factory_bot (~> 6.2.0)
       railties (>= 5.0.0)
     ffi (1.15.5-x86-mingw32)
+    fuubar (2.5.1)
+      rspec-core (~> 3.0)
+      ruby-progressbar (~> 1.4)
     globalid (1.0.0)
       activesupport (>= 5.0)
     i18n (1.9.1)
@@ -205,6 +208,7 @@ GEM
       rspec-mocks (~> 3.10)
       rspec-support (~> 3.10)
     rspec-support (3.10.3)
+    ruby-progressbar (1.11.0)
     rubyzip (2.3.2)
     sass-rails (6.0.0)
       sassc-rails (~> 2.1, >= 2.1.1)
@@ -282,6 +286,7 @@ DEPENDENCIES
   capybara
   devise
   factory_bot_rails (~> 6.2)
+  fuubar
   jbuilder (~> 2.7)
   jquery-rails
   launchy
