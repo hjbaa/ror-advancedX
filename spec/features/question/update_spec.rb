@@ -26,6 +26,21 @@ feature 'User can edit his question' do
       end
     end
 
+    scenario 'edits his question, attaching files' do
+      sign_in user
+      visit question_path(question)
+      click_on 'Edit question'
+
+      within('.question') do
+        attach_file 'Add files', %W[#{Rails.root}/spec/rails_helper.rb #{Rails.root}/spec/spec_helper.rb]
+
+        click_on 'Save'
+
+        expect(page).to have_link 'rails_helper.rb'
+        expect(page).to have_link 'spec_helper.rb'
+      end
+    end
+
     scenario 'edits his question with errors' do
       sign_in user
       visit question_path(question)
