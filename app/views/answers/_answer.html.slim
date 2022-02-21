@@ -40,3 +40,15 @@ div class="mb-4 row" id="answer-#{answer.id}"
 
   .col-sm-3
     p ="Author: #{answer.author.email}"
+
+-if answer.files.attached?
+  .attachments.mb-4
+    p Attachments:
+    -answer.files.each do |file|
+      div class="row mb-1" id="attach-id-#{file.id}"
+        .col-sm-6
+          p= link_to file.filename.to_s, url_for(file)
+        .col-sm-6
+          =link_to 'Delete this file', '#', class: 'btn btn-outline-danger',
+                  data: { method: :delete, confirm: 'Are you sure?' }
+hr class="mb-4"

@@ -9,6 +9,7 @@ Rails.application.routes.draw do
 
     member do
       post 'best_answer/:answer_id', to: 'questions#mark_best_answer', as: :best_answer
+      delete 'destroy_attachment/:attachment_id', to: 'questions#destroy_attachment', as: :destroy_attach
     end
   end
 end

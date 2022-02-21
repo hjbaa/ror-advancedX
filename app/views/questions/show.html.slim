@@ -11,8 +11,6 @@ hr class="mb-4"
   .all_answers
     =render @question.answers_without_best
 
-hr class="mb-4"
-
 .new-answer-errors
   =render 'shared/errors', object: @answer
 
@@ -22,6 +20,12 @@ hr class="mb-4"
       =f.label :body, 'Your answer'
     .col-sm-10
       =f.text_area :body, class: 'form-control'
+
+  .mb-3.row
+    .col-sm-2.col-form-label
+      =f.label :files, 'Add files'
+    .col-sm-10.col-form-label
+      =f.file_field :files, multiple: true
 
   =f.submit 'Submit answer', class: 'btn btn-outline-primary btn-md mb-4'
 
