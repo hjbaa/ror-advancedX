@@ -4,8 +4,11 @@ Rails.application.routes.draw do
   devise_for :users
   root 'questions#index'
 
-  # delete '/answers/:id', to: 'answers#delete', as: ''
-  resources :questions do
-    resources :answers, only: %i[create update destroy], shallow: true
+  resources :questions, except: :edit do
+    resources :answers, shallow: true, only: %i[create update destroy]
+
+    member do
+      post 'best_answer/:answer_id', to: 'questions#mark_best_answer', as: :best_answer
+    end
   end
 end

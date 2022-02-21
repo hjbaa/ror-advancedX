@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 class QuestionsController < ApplicationController
-  before_action :authenticate_user!, except: %i[index show]
-  before_action :find_question, only: %i[show edit update destroy]
+  before_action :authenticate_user!, except: %i[index show mark_best_answer]
+  before_action :find_question, only: %i[show edit update destroy mark_best_answer]
 
   def index
     @questions = Question.all
@@ -24,17 +24,9 @@ class QuestionsController < ApplicationController
   end
 
   def update
-    if current_user.author_of?(@question)
-      if @question.update(question_params)
-        flash[:success] = 'Your question successfully updated.'
-        redirect_to @question
-      else
-        render :edit
-      end
-    else
-      flash[:danger] = 'You are not allowed to do this!'
-      redirect_to @question
-    end
+    return head(:forbidden) unless current_user.author_of?(@question)
+
+    @question.update(question_params)
   end
 
   def destroy
@@ -48,10 +40,20 @@ class QuestionsController < ApplicationController
     redirect_to questions_path
   end
 
-  def edit; end
-
   def show
     @answer = Answer.new
+  end
+
+  def mark_best_answer
+    return head(:forbidden) unless current_user&.author_of?(@question)
+
+    @answer = Answer.find(params[:answer_id])
+
+    if @answer.best_for?(@question)
+      @question.update(best_answer: nil)
+    else
+      @question.update(best_answer: @answer)
+    end
   end
 
   private

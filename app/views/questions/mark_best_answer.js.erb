@@ -1,0 +1,9 @@
+bestAnswerDiv = $('.best_answer')
+
+<% if @question.best_answer %>
+  bestAnswerDiv.html('<%= j render @question.best_answer %>');
+<% else %>
+  bestAnswerDiv.html('');
+<% end %>
+
+$('.all_answers').html('<%= j render @question.answers_without_best %>');

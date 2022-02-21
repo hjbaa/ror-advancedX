@@ -1,37 +1,27 @@
-h1 class="mb-4" =@question.title
+.question
+  =render 'question-header', question: @question
 
-h3 class="mb-4" ="Body: #{@question.body}"
+hr class="mb-4"
 
--if @question.answers.present?
-  h5 Answers:
+.answers
+  .best_answer
+    - unless @question.best_answer.nil?
+      =render @question.best_answer
 
-  table class="table mb-5 text-center"
-    thead
-      tr
-        th Answer's body
-        th Action
-    -@question.answers.each do |answer|
-      -next if answer.id.nil?
-      tr
-        td =answer.body
-        td
-          div class="btn-group" role="group"
-            -if current_user&.author_of?(answer)
-              =link_to 'Edit', root_path, class: 'btn btn-outline-primary'
-              =link_to 'Destroy', answer_path(answer), class: 'btn btn-outline-danger',
-                      data: { method: :delete, confirm: 'Are you sure?'}
+  .all_answers
+    =render @question.answers_without_best
 
+hr class="mb-4"
 
-=render 'shared/errors', object: @answer
-=form_with model: [@question, @answer], local: true do |f|
-  div class="mb-3 row"
-    div class="col-sm-2 col-form-label"
-      =f.label :body
-    div class="col-sm-10 col-form-label"
-      =f.text_area :body, placeholder: 'Your answer', class: 'form-control'
+.new-answer-errors
+  =render 'shared/errors', object: @answer
+
+=form_with model: [@question, @answer], local: false, class: 'new-answer' do |f|
+  .mb-3.row
+    .col-sm-2.col-form-label
+      =f.label :body, 'Your answer'
+    .col-sm-10
+      =f.text_area :body, class: 'form-control'
 
   =f.submit 'Submit answer', class: 'btn btn-outline-primary btn-md mb-4'
 
--if current_user&.author_of?(@question)
-  =link_to 'Destroy question', question_path(@question), class: 'btn btn-danger btn-lg',
-          data: { method: :delete, confirm: 'Are you sure?' }

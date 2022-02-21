@@ -8,8 +8,11 @@ import Turbolinks from "turbolinks"
 import * as ActiveStorage from "@rails/activestorage"
 import "channels"
 
+import 'jquery'
 import '@popperjs/core'
 import 'bootstrap/js/dist/dropdown'
+import 'packs/utilities/answers.js'
+import 'packs/utilities/question.js'
 
 Rails.start()
 Turbolinks.start()

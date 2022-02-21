@@ -6,39 +6,21 @@ class AnswersController < ApplicationController
 
   def create
     @question = Question.find(params[:question_id])
-    @answer = @question.answers.new(answer_params)
-    current_user.answers.push(@answer)
-
-    if @answer.save
-      flash[:success] = 'Answer was created!'
-      redirect_to @question
-    else
-      render 'questions/show'
-    end
+    @answer = @question.answers.create(answer_params.merge(author: current_user))
   end
 
   def update
-    if current_user.author_of?(@answer)
-      if @answer.update(answer_params)
-        flash[:success] = 'Answer was created!'
-      else
-        flash[:danger] = 'Invalid input!'
-      end
-    else
-      flash[:danger] = 'You are not allowed to do this!'
-    end
+    return head(:forbidden) unless current_user.author_of?(@answer)
 
-    render 'questions/show'
+    @answer.update(answer_params)
+    @question = @answer.question
   end
 
   def destroy
-    if current_user.author_of?(@answer)
-      @answer.destroy
-      flash[:success] = 'Answer was destroyed!'
-    else
-      flash[:danger] = 'You are not allowed to do this!'
-    end
-    redirect_to @answer.question
+    return head(:forbidden) unless current_user.author_of?(@answer)
+
+    @question = @answer.question
+    @answer.destroy
   end
 
   private

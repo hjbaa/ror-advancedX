@@ -11,4 +11,11 @@ RSpec.describe Answer, type: :model do
   describe 'Validations' do
     it { should validate_presence_of :body }
   end
+
+  describe 'Methods' do
+    let(:user) { create(:user) }
+    let!(:question) { create(:question, author: user) }
+    let!(:first_answer) { create(:answer, question: question, author: user) }
+    let!(:second_answer) { create(:answer, question: question, author: user) }
+  end
 end
