@@ -2,7 +2,7 @@
 
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
-  before_action :find_question, only: %i[show edit update destroy mark_best_answer destroy_attachment]
+  before_action :find_question, only: %i[show edit update destroy mark_best_answer]
 
   def index
     @questions = Question.all
@@ -54,13 +54,6 @@ class QuestionsController < ApplicationController
     else
       @question.update(best_answer: @answer)
     end
-  end
-
-  def destroy_attachment
-    return head(:forbidden) unless current_user&.author_of?(@question)
-
-    @attached_file = ActiveStorage::Attachment.find(params[:attachment_id])
-    @attached_file.purge
   end
 
   private

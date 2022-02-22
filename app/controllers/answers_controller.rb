@@ -2,7 +2,7 @@
 
 class AnswersController < ApplicationController
   before_action :authenticate_user!
-  before_action :find_answer, only: %i[update destroy destroy_attachment]
+  before_action :find_answer, only: %i[update destroy]
 
   def create
     @question = Question.find(params[:question_id])
@@ -21,13 +21,6 @@ class AnswersController < ApplicationController
 
     @question = @answer.question
     @answer.destroy
-  end
-
-  def destroy_attachment
-    return head(:forbidden) unless current_user&.author_of?(@answer)
-
-    @attached_file = ActiveStorage::Attachment.find(params[:attachment_id])
-    @attached_file.purge
   end
 
   private
