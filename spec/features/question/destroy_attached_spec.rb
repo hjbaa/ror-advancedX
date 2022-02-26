@@ -16,7 +16,7 @@ feature 'User can delete the files attached to the question', js: true do
     click_on 'Submit'
   end
 
-  scenario 'destroys his attachments' do
+  scenario 'User destroys his attachments' do
     click_on 'Delete this file'
     page.accept_confirm
     expect(page).to_not have_link 'rails_helper.rb'

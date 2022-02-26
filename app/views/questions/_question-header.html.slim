@@ -12,6 +12,12 @@ h3 class="mb-4" =question.body
                   class: 'btn btn-outline-danger',
                   data: { method: :delete, confirm: 'Are you sure?', remote: true }
 
+.link-secondary
+  p Links:
+  ul
+    -question.links.each do |link|
+      li= link_to link.name, link.url
+
 .errors
   =render 'shared/errors', object: question
 

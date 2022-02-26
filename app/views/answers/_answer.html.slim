@@ -57,4 +57,11 @@ div class="mb-4 row" id="answer-#{answer.id}"
           =link_to 'Delete this file', attachment_path(id: file.id),
                   class: 'btn btn-outline-danger',
                   data: { method: :delete, confirm: 'Are you sure?', remote: true }
+
+.links
+  p Links:
+  ul
+    -answer.links.each do |link|
+      li= link_to link.name, link.url
+
 hr class="mb-4"
