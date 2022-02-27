@@ -9,8 +9,8 @@ import * as ActiveStorage from "@rails/activestorage"
 import "channels"
 
 import 'jquery'
-import '@nathanvda/cocoon'
 import '@popperjs/core'
+import '@nathanvda/cocoon'
 import 'bootstrap/js/dist/dropdown'
 import 'packs/utilities/answers.js'
 import 'packs/utilities/question.js'
