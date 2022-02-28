@@ -11,6 +11,7 @@ class Question < ApplicationRecord
   has_many_attached :files
 
   accepts_nested_attributes_for :links, reject_if: :all_blank
+  accepts_nested_attributes_for :reward, reject_if: proc { |attributes| attributes['name'].blank? || attributes['image'].blank? }
 
   validates :body, :title, presence: true
 

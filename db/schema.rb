@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_28_213956) do
+ActiveRecord::Schema.define(version: 2022_02_28_212519) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -77,15 +77,11 @@ ActiveRecord::Schema.define(version: 2022_02_28_213956) do
   create_table "rewards", force: :cascade do |t|
     t.string "name"
     t.bigint "question_id"
+    t.bigint "user_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["question_id"], name: "index_rewards_on_question_id"
-  end
-
-  create_table "rewards_users", id: false, force: :cascade do |t|
-    t.bigint "reward_id", null: false
-    t.bigint "user_id", null: false
-    t.index ["reward_id", "user_id"], name: "index_rewards_users_on_reward_id_and_user_id"
+    t.index ["user_id"], name: "index_rewards_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -107,4 +103,5 @@ ActiveRecord::Schema.define(version: 2022_02_28_213956) do
   add_foreign_key "questions", "answers", column: "best_answer_id"
   add_foreign_key "questions", "users", column: "author_id"
   add_foreign_key "rewards", "questions"
+  add_foreign_key "rewards", "users"
 end

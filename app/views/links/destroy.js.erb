@@ -1,2 +1,1 @@
-linkDiv = document.getElementById('link-' + <%= @link.id %>);
-linkDiv.parentElement.removeChild(linkDiv);
+$('#link-' + <%= @link.id %>).remove();

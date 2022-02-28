@@ -1,7 +1,16 @@
 class Reward < ApplicationRecord
   belongs_to :question
+  belongs_to :user, optional: true
 
-  has_and_belongs_to_many :users
+  has_one_attached :image
 
-  has_one_attached :images
+  before_destroy :destroy_attached_image
+
+  validates :name, presence: true
+
+  private
+
+  def destroy_attached_image
+    image.purge
+  end
 end

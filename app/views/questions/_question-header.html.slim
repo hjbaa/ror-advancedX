@@ -1,6 +1,14 @@
 h1 class="mb-4" =question.title
 h3 class="mb-4" =question.body
 
+
+-if @question.reward
+  h4
+    span style='color: green' Reward for this question:
+  p= @question.reward.name
+  =image_tag @question.reward.image, alt: "#{@question.reward.name} image", id: 'reward-image',
+                                     style: 'max-width:500px;max-height:500px'
+
 -if @question.files.attached?
   .attachments.mb-4
     -@question.files.each do |file|
