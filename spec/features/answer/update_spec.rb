@@ -7,6 +7,7 @@ feature 'User can edit his answer' do
   given(:second_user) { create(:user) }
   given!(:question) { create(:question, author: user) }
   given!(:answer) { create(:answer, author: user, question: question) }
+  given(:google_url) { 'https://google.com' }
 
   scenario 'Unauthenticated user can not edit answer' do
     visit question_path(question)
@@ -26,6 +27,21 @@ feature 'User can edit his answer' do
         expect(page).to_not have_content answer.body
         expect(page).to have_content 'Edited answer'
         expect(page).to_not have_selector 'textarea'
+      end
+    end
+
+    scenario 'edits his answer, adding links' do
+      sign_in user
+      visit question_path(question)
+      click_on 'Edit'
+
+      within '.answers' do
+        click_on 'Add one more link'
+        fill_in 'Link name', with: 'Google'
+        fill_in 'Url', with: google_url
+        click_on 'Save'
+
+        expect(page).to have_link 'Google', href: google_url
       end
     end
 
