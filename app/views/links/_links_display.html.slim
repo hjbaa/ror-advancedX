@@ -2,10 +2,14 @@
   -if object.links.any?
     p Links:
     -object.links.each do |link|
-      div class='row' id='link-#{link.id}'
-        .col-sm-8
-          = link_to link.name, link.url
+      div class='row mb-4 align-items-center' id='link-#{link.id}'
+        -if link.gist?
+          .col-sm-9
+            p =javascript_include_tag(link.url + '.js')
+        -else
+          .col-sm-9
+            = link_to link.name, link.url, class: 'btn btn-link'
         -if current_user&.author_of?(object)
-          .col-sm-4.text-white.border-danger.border
-            = link_to 'Destroy this link', link_path(id: link.id),
+          .col-sm-3.text-center
+            = link_to 'Destroy this link', link_path(id: link.id), class: 'btn btn-outline-danger',
                     data: { method: :delete, confirm: 'Are you sure?', remote: true }
