@@ -1,0 +1,11 @@
+.links.mb-4
+  -if object.links.any?
+    p Links:
+    -object.links.each do |link|
+      div class='row' id='link-#{link.id}'
+        .col-sm-8
+          = link_to link.name, link.url
+        -if current_user&.author_of?(object)
+          .col-sm-4.text-white.border-danger.border
+            = link_to 'Destroy this link', link_path(id: link.id),
+                    data: { method: :delete, confirm: 'Are you sure?', remote: true }

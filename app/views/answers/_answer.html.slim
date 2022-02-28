@@ -61,17 +61,7 @@ div class="mb-4 row" id="answer-#{answer.id}"
                   class: 'btn btn-outline-danger',
                   data: { method: :delete, confirm: 'Are you sure?', remote: true }
 
-.links.mb-4
-  -if answer.links.any?
-    p Links:
-    -answer.links.each do |link|
-      div class='row' id='link-#{link.id}'
-        .col-sm-8
-          = link_to link.name, link.url
-        -if current_user&.author_of?(answer)
-          .col-sm-4.text-white.border-danger.border
-            = link_to 'Destroy this link', link_path(id: link.id),
-                    data: { method: :delete, confirm: 'Are you sure?', remote: true }
+=render 'links/links_display', object: answer
 
 
 hr class="mb-4"
