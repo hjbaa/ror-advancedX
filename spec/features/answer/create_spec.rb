@@ -7,9 +7,12 @@ feature 'User can answer for question' do
   given!(:question) { create(:question, author: user) }
 
   describe 'Authenticated user', js: true do
-    scenario 'tries to create correct answer for question' do
+    background do
       sign_in(user)
       visit question_path(question)
+    end
+
+    scenario 'tries to create correct answer for question' do
       fill_in 'Your answer', with: 'Some answer'
       click_on 'Submit answer'
 
@@ -20,11 +23,22 @@ feature 'User can answer for question' do
     end
 
     scenario 'tries to create incorrect answer for question' do
-      sign_in(user)
-      visit question_path(question)
       click_on 'Submit answer'
 
       expect(page).to have_content "Body can't be blank"
+    end
+
+    scenario 'tries to create answer with attachments' do
+      within '.new-answer' do
+        fill_in 'Your answer', with: 'Some answer'
+        attach_file 'Add files', %W[#{Rails.root}/spec/rails_helper.rb #{Rails.root}/spec/spec_helper.rb]
+        click_on 'Submit answer'
+      end
+
+      within '.answers' do
+        expect(page).to have_link 'rails_helper.rb'
+        expect(page).to have_link 'spec_helper.rb'
+      end
     end
   end
 

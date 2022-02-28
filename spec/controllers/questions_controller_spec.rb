@@ -185,7 +185,8 @@ RSpec.describe QuestionsController, type: :controller do
     describe 'Not author' do
       it 'should not assign best answer to question' do
         post :mark_best_answer, params: { id: question.id, answer_id: answer.id, format: :js }
-        expect(assigns(:question).best_answer).to be_nil
+
+        expect(response).to have_http_status :unauthorized
       end
     end
   end

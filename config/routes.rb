@@ -11,4 +11,6 @@ Rails.application.routes.draw do
       post 'best_answer/:answer_id', to: 'questions#mark_best_answer', as: :best_answer
     end
   end
+
+  resources :attachment, only: :destroy
 end

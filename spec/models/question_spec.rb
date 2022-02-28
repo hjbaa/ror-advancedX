@@ -13,17 +13,19 @@ RSpec.describe Question, type: :model do
   describe 'Validations' do
     it { should validate_presence_of :title }
     it { should validate_presence_of :body }
+    it 'should have many attached file' do
+      expect(Question.new.files).to be_an_instance_of(ActiveStorage::Attached::Many)
+    end
   end
 
   describe 'Methods' do
-    let(:user) { create(:user) }
-    let!(:question) { create(:question, author: user) }
-    let!(:first_answer) { create(:answer, question: question, author: user) }
-    let!(:second_answer) { create(:answer, question: question, author: user) }
-
     describe 'answers_without_best' do
+      let(:user) { create(:user) }
+      let!(:question) { create(:question, author: user) }
+      let!(:first_answer) { create(:answer, question: question, author: user) }
+      let!(:second_answer) { create(:answer, question: question, author: user) }
+
       it 'should return list of all answers' do
-        p question.answers_without_best.inspect
         expect(question.answers_without_best).to eq question.answers
       end
 

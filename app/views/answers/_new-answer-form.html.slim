@@ -1,0 +1,14 @@
+=form_with model: [question, answer], local: false do |f|
+  .mb-3.row
+    .col-sm-2.col-form-label
+      =f.label :body, 'Your answer'
+    .col-sm-10
+      =f.text_area :body, class: 'form-control'
+
+  .mb-3.row
+    .col-sm-2.col-form-label
+      =f.label :files, 'Add files'
+    .col-sm-10.col-form-label
+      =f.file_field :files, multiple: true, direct_upload: true
+
+  =f.submit 'Submit answer', class: 'btn btn-outline-primary btn-md mb-4'

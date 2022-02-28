@@ -13,6 +13,7 @@ import '@popperjs/core'
 import 'bootstrap/js/dist/dropdown'
 import 'packs/utilities/answers.js'
 import 'packs/utilities/question.js'
+import 'packs/utilities/direct_uploads.js'
 
 Rails.start()
 Turbolinks.start()
