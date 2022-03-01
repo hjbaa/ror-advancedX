@@ -11,4 +11,12 @@ class User < ApplicationRecord
   def author_of?(object)
     id == object.author_id
   end
+
+  def assign_reward(reward)
+    if rewards.include?(reward)
+      reward.update(user: nil)
+    else
+      rewards << reward
+    end
+  end
 end

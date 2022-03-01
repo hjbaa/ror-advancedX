@@ -1,0 +1,8 @@
+.card.d-inline-block.m-3 style='max-width: 20rem'
+  .card-header
+    p Reward for good answer on question
+    strong= reward.question.title
+  .card-body
+    h4.card-title= reward.name
+    = image_tag reward.image, alt: "#{reward.name} image", id: 'reward-image',
+            style: 'max-width:200px;max-height:200px'

@@ -57,6 +57,8 @@ class QuestionsController < ApplicationController
     else
       @question.update(best_answer: @answer)
     end
+
+    @answer.author.assign_reward(@question.reward) if @question.reward
   end
 
   private
