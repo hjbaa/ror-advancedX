@@ -1,4 +1,3 @@
-answer = document.getElementById('answer-' + <%= "#{@answer.id}" %>);
-answer.parentNode.removeChild(answer);
+$('#answer-' + <%= @answer.id %>).remove();
 $('.best_answer').html('<%= j render @question.best_answer if @question.best_answer %>');
 $('.all_answers').html('<%= j render @question.answers_without_best %>');

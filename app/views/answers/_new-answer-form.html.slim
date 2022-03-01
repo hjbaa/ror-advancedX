@@ -1,3 +1,4 @@
+h3 Add answer for this question
 =form_with model: [question, answer], local: false do |f|
   .mb-3.row
     .col-sm-2.col-form-label
@@ -10,5 +11,13 @@
       =f.label :files, 'Add files'
     .col-sm-10.col-form-label
       =f.file_field :files, multiple: true, direct_upload: true
+
+  .add-links
+    h4 Add links:
+
+    .mb-5
+      = f.fields_for :links do |l|
+        =render 'links/link_fields', f: l
+      =link_to_add_association 'Add one more link', f, :links, partial: 'links/link_fields'
 
   =f.submit 'Submit answer', class: 'btn btn-outline-primary btn-md mb-4'

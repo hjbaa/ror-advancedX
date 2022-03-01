@@ -1,6 +1,14 @@
 h1 class="mb-4" =question.title
 h3 class="mb-4" =question.body
 
+
+-if @question.reward
+  h4
+    span style='color: green' Reward for this question:
+  p= @question.reward.name
+  =image_tag @question.reward.image, alt: "#{@question.reward.name} image", id: 'reward-image',
+                                     style: 'max-width:500px;max-height:500px'
+
 -if @question.files.attached?
   .attachments.mb-4
     -@question.files.each do |file|
@@ -12,27 +20,13 @@ h3 class="mb-4" =question.body
                   class: 'btn btn-outline-danger',
                   data: { method: :delete, confirm: 'Are you sure?', remote: true }
 
+=render 'links/links_display', object: question
+
 .errors
   =render 'shared/errors', object: question
 
 = form_with model: question, html: { id: "edit-question" }, local: false, class: 'hidden' do |f|
-  .mb-3.row
-    .col-sm-2.col-form-label
-      = f.label :title, 'Your question'
-    .col-sm-10.col-form-label
-      = f.text_field :title, placeholder: 'Title', class: 'form-control'
-
-    .mb-3.row
-      .col-sm-2.col-form-label
-        = f.label :body, 'Description'
-      .col-sm-10.col-form-label
-        = f.text_area :body, class: 'form-control'
-
-    .mb-3.row
-      .col-sm-2.col-form-label
-        = f.label :files, 'Add files'
-      .col-sm-10.col-form-label
-        = f.file_field :files, multiple: true, direct_upload: true
+  =render 'question_fields', f: f
 
   = f.submit 'Save', class: 'btn btn-outline-success btn-md mb-4'
 

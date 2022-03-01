@@ -10,6 +10,8 @@ class QuestionsController < ApplicationController
 
   def new
     @question = current_user.questions.new
+    @question.links.new
+    @reward = Reward.new(question: @question)
   end
 
   def create
@@ -42,6 +44,7 @@ class QuestionsController < ApplicationController
 
   def show
     @answer = Answer.new
+    @answer.links.new
   end
 
   def mark_best_answer
@@ -54,6 +57,8 @@ class QuestionsController < ApplicationController
     else
       @question.update(best_answer: @answer)
     end
+
+    @answer.author.assign_reward(@question.reward) if @question.reward
   end
 
   private
@@ -63,6 +68,8 @@ class QuestionsController < ApplicationController
   end
 
   def question_params
-    params.require(:question).permit(:title, :body, files: [])
+    params.require(:question).permit(:title, :body, files: [],
+                                                    links_attributes: %i[name url],
+                                                    reward_attributes: %i[name image])
   end
 end

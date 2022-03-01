@@ -1,22 +1,6 @@
 =render 'shared/errors', object: @question
 
 =form_with model: @question, local: true do |f|
-  .mb-3.row
-    .col-sm-2.col-form-label
-      =f.label :title, 'Your question'
-    .col-sm-10.col-form-label
-      =f.text_field :title, placeholder: 'Title', class: 'form-control'
-
-  .mb-3.row
-    .col-sm-2.col-form-label
-      =f.label :body, 'Description'
-    .col-sm-10.col-form-label
-      =f.text_area :body, class: 'form-control'
-
-  .mb-3.row
-    .col-sm-2.col-form-label
-      =f.label :files, 'Add files'
-    .col-sm-10.col-form-label
-      =f.file_field :files, multiple: true, direct_upload: true
+  =render 'question_fields', f: f
 
   =f.submit 'Submit', class: 'btn btn-outline-primary btn-md mb-4'

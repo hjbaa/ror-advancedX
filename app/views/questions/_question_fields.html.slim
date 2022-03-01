@@ -1,0 +1,45 @@
+.mb-3.row
+  .col-sm-2.col-form-label
+    =f.label :title, 'Your question'
+  .col-sm-10.col-form-label
+    =f.text_field :title, placeholder: 'Title', class: 'form-control'
+
+.mb-3.row
+  .col-sm-2.col-form-label
+    =f.label :body, 'Description'
+  .col-sm-10.col-form-label
+    =f.text_area :body, class: 'form-control'
+
+.mb-3.row
+  .col-sm-2.col-form-label
+    =f.label :files, 'Add files'
+  .col-sm-10.col-form-label
+    =f.file_field :files, multiple: true, direct_upload: true
+
+hr
+
+.add-links
+  h4 Add links:
+
+  .mb-5
+    = f.fields_for :links do |l|
+      =render 'links/link_fields', f: l
+    =link_to_add_association 'Add one more link', f, :links, partial: 'links/link_fields'
+
+hr
+
+.assign-reward
+  h4 Assign reward for this question
+
+  .mb-5
+    = f.fields_for :reward do |r|
+      .mb-3.row
+        .col-sm-2.col-form-label
+          =r.label :name, "Reward's name"
+        .col-sm-10.col-form-label
+          =r.text_field :name, class: 'form-control'
+      .mb-3.row
+        .col-sm-2.col-form-label
+          = r.label :image, 'Add image for reward'
+        .col-sm-10.col-form-label
+          = r.file_field :image, direct_upload: true

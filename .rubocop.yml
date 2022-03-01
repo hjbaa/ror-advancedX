@@ -1,0 +1,7 @@
+AllCops:
+  Exclude:
+    - db/*.rb
+    - db/migrate/*.rb
+Metrics/BlockLength:
+  Exclude:
+    - spec/**/*
