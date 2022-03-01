@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Link < ApplicationRecord
   GIST_REGEXP = %r{^https://gist.github.com/\w*/\w*}.freeze
 

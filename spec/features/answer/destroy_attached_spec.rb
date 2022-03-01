@@ -26,4 +26,3 @@ feature 'User can delete the files attached to the answer', js: true do
     expect(page).to_not have_link 'rails_helper.rb'
   end
 end
-
