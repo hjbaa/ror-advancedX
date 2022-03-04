@@ -1,0 +1,5 @@
+=form_with model: Vote.new, local: false, data: { type: :json }, class: 'upvote' do |f|
+  =f.number_field :value, value: val, class: 'hidden'
+  =f.text_field :votable_type, value: object.class.to_s, class: 'hidden'
+  =f.text_field :votable_id, value: object.id, class: 'hidden'
+  =f.submit msg, class: 'btn btn-link'

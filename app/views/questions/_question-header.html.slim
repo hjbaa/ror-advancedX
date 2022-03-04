@@ -1,5 +1,9 @@
-h1 class="mb-4" =question.title
-h3 class="mb-4" =question.body
+.row
+  .col-10
+    h1 class="mb-4" =question.title
+    h3 class="mb-4" =question.body
+  .col-2.voting.my-auto
+    =render 'shared/voting', resource: question
 
 
 -if @question.reward

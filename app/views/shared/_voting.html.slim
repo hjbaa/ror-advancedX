@@ -1,0 +1,26 @@
+table.table.table-sm.text-center
+  -if current_user&.author_of?(resource) || !current_user
+    tr
+      td.rating = "Total rating: #{resource.rating}"
+
+  -else
+    -if current_user&.voted_for?(resource)
+      tr
+        td.rating = "Total rating: #{resource.rating}"
+
+      tr
+        td =link_to 'Cancel vote', vote_path(vote_by_current_user_for(resource)), data: { method: :delete }
+
+    -else
+      tr
+        td
+          =form_with model: Vote.new, local: false, data: { type: :json }, class: 'upvote' do |f|
+            =render 'votes/votes_fields', f: f, value: 1, object: resource
+            =f.submit 'Upvote', class: 'btn btn-link'
+      tr
+        td.rating = "Total rating: #{resource.rating}"
+      tr
+        td
+          = form_with model: Vote.new, local: false, data: { type: :json }, class: 'downvote' do |f|
+            = render 'votes/votes_fields', f: f, value: -1, object: resource
+            = f.submit 'Downvote', class: 'btn btn-link'

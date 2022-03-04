@@ -32,7 +32,7 @@ feature 'User can vote for answer', 'To determine the usefulness of the answer,
 
       scenario 'votes down for the answer' do
         within '.answers .voting' do
-          click_on 'Upvote'
+          click_on 'Downvote'
           expect(page).to have_content('Total rating: -1')
         end
       end
@@ -40,17 +40,17 @@ feature 'User can vote for answer', 'To determine the usefulness of the answer,
       scenario 'tries to vote for second time for the answer' do
         within '.answers .voting' do
           click_on 'Upvote'
-          expect(page).to_not have_content('Upvote')
-          expect(page).to_not have_content('Downvote')
+          expect(page).to_not have_button('Upvote')
+          expect(page).to_not have_button('Downvote')
         end
       end
 
       scenario 'cancelled his vote for answer' do
         within '.answers .voting' do
           click_on 'Upvote'
-          click_in 'Cancel vote'
-          expect(page).to have_content('Upvote')
-          expect(page).to have_content('Downvote')
+          click_on 'Cancel vote'
+          expect(page).to have_button('Upvote')
+          expect(page).to have_button('Downvote')
         end
       end
     end
@@ -61,8 +61,8 @@ feature 'User can vote for answer', 'To determine the usefulness of the answer,
         visit question_path(question)
 
         within '.answers .voting' do
-          expect(page).to_not have_content('Upvote')
-          expect(page).to_not have_content('Downvote')
+          expect(page).to_not have_button('Upvote')
+          expect(page).to_not have_button('Downvote')
         end
       end
     end
@@ -80,8 +80,8 @@ feature 'User can vote for answer', 'To determine the usefulness of the answer,
     end
 
     scenario 'tries to vote for answer' do
-      expect(page).to_not have_content('Upvote')
-      expect(page).to_not have_content('Downvote')
+      expect(page).to_not have_button('Upvote')
+      expect(page).to_not have_button('Downvote')
     end
   end
 end

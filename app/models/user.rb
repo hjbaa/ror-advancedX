@@ -7,9 +7,14 @@ class User < ApplicationRecord
   has_many :questions, foreign_key: 'author_id', dependent: :destroy
   has_many :answers, foreign_key: 'author_id', dependent: :destroy
   has_many :rewards
+  has_many :votes, dependent: :destroy
 
   def author_of?(object)
     id == object.author_id
+  end
+
+  def voted_for?(object)
+    !!votes.find_by(votable_type: object.class.to_s, votable_id: object.id)
   end
 
   def assign_reward(reward)
