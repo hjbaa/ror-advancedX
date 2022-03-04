@@ -1,5 +1,8 @@
-div class="mb-4 row" id="answer-#{answer.id}"
-  .col-sm-6
+div class="mb-5 row" id="answer-#{answer.id}" data-answer-id=answer.id
+  .col-sm-2.voting.my-auto
+    =render 'shared/voting', resource: answer
+
+  .col-sm-5
     -if answer.best?
       p
         strong Best answer: &nbsp;
@@ -46,7 +49,7 @@ div class="mb-4 row" id="answer-#{answer.id}"
                 data: { method: :delete, confirm: 'Are you sure?', remote: true }
 
 
-  .col-sm-3
+  .col-sm-2
     p ="Author: #{answer.author.email}"
 
 -if answer.files.attached?
