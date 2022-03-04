@@ -10,6 +10,6 @@ module Votable
   def rating
     return 0 unless votes.any?
 
-    votes.pluck(:value).reduce { |result, current| result += current }
+    votes.sum(:value)
   end
 end

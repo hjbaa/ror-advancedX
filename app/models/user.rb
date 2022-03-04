@@ -14,7 +14,7 @@ class User < ApplicationRecord
   end
 
   def voted_for?(object)
-    !!votes.find_by(votable_type: object.class.to_s, votable_id: object.id)
+    votes.exists?(votable: object)
   end
 
   def assign_reward(reward)

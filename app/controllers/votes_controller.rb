@@ -17,6 +17,9 @@ class VotesController < ApplicationController
 
   def destroy
     @vote = Vote.find(params[:id])
+
+    return head(:forbidden) unless current_user.voted_for?(@vote.votable)
+
     @vote.destroy
     redirect_to resources_path(@vote)
   end
