@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 feature 'User can vote for question', 'To determine the usefulness of the question,
@@ -77,4 +79,3 @@ feature 'User can vote for question', 'To determine the usefulness of the questi
     end
   end
 end
-
